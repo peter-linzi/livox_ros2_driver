@@ -29,6 +29,13 @@ message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER_VERSION}")
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 find_package(PCL REQUIRED)
+# Prefer the SDK built by livox_sdk_vendor (including the configured local source).
+if(LIVOX_SDK_SOURCE_DIR)
+  unset(livox_sdk_LIBRARY CACHE)
+  unset(livox_sdk_INCLUDE_DIR CACHE)
+  get_filename_component(livox_sdk_ROOT_DIR
+    "${livox_sdk_vendor_DIR}/../../.." ABSOLUTE)
+endif()
 find_package(livox_sdk REQUIRED)
 
 # check apr
